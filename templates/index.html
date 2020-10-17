@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+        <!--    slim 버전X-->
+        <!--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
+        <!--            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
+        <!--            crossorigin="anonymous"></script>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
+
+        <link rel="shortcut icon"
+              href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Apple_logo_grey.svg/488px-Apple_logo_grey.svg.png">
+
+        <!--    폰트-->
+        <!--    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Nanum+Myeongjo&display=swap" rel="stylesheet">-->
+        <!--    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200&display=swap" rel="stylesheet">-->
+<!--        <link rel="stylesheet" href="/wss/fonts?families=SF+Pro,v2|SF+Pro+KR,v2|SF+Pro+Icons,v1">-->
+        <link rel="alternate" hreflang="en-gb" href="https://www.apple.com/uk/shop/buy-iphone/iphone-11-pro/6.5-inch-display-256gb-gold">
+        <link rel="alternate" hreflang="ko-kr" href="https://www.apple.com/kr/shop/buy-iphone/iphone-11-pro/6.5%ED%98%95-%EB%94%94%EC%8A%A4%ED%94%8C%EB%A0%88%EC%9D%B4-256gb-%EA%B3%A8%EB%93%9C">
+
+        <style>
+
+            :root {
+                --opacity-load: 1.2s opacity;
+                --margin: 0 2%;
+                --responsive_transition_time: .3s ease-out;
+            }
+
+            * {
+                /*font-family: 'Do Hyeon', sans-serif;*/
+                /*font-family: 'Nanum Myeongjo', serif;*/
+                /*font-family: 'Noto Serif KR', serif;*/
+                /*font-family: "SF Pro KR", "SF Pro Display", "SF Pro Icons", "Apple Gothic", "HY Gulim", MalgunGothic, "HY Dotum", "Lexi Gulim", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+                font-family: "SF Pro KR", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Apple Gothic", "HY Gulim", MalgunGothic, "HY Dotum", "Lexi Gulim", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            }
+
+            *:not(.table_wrap):not(main):not(.topbtn) {
+                transition: var(--responsive_transition_time);
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: rgba(0, 0, 0, .055);
+                display: flex;
+                justify-content: center;
+            }
+
+            body::-webkit-scrollbar {
+                width: 10px;
+            }
+
+            body::-webkit-scrollbar-track {
+                background-color: #ccc;
+            }
+
+            body::-webkit-scrollbar-thumb {
+                background-color: #888;
+                border-radius: 4px;
+            }
+
+            hr {
+                margin: 4% 0;
+            }
+
+            .container {
+                background-color: white;
+                width: 1100px;
+                /*outline: 1px solid blue;*/
+                display: flex;
+                flex-direction: column;
+                /*justify-content: center;*/
+                align-items: center;
+                padding: 0 6%; /* 84 */
+            }
+
+            /*탑버튼, window load시 opacity*/
+
+            .container > header {
+                width: 1100px;
+                height: 54px;
+                position: fixed;
+                display: flex;
+                justify-content: space-between;
+                padding: 0 2%;
+                z-index: 10;
+                transition: width var(--responsive_transition_time);
+            }
+
+            header > .logo {
+                padding-top: 1%;
+                font-size: 3.4em;
+                /*position: fixed;*/
+                z-index: 10;
+                /*transition: .2s .2s ease-out transform;*/
+                transition: transform .2s .25s ease, opacity 1.2s;
+                cursor: pointer;
+            }
+
+            header > .down {
+                padding-top: 0;
+                /*font-size: 2.4em;*/
+                /*transform: translateX(-420px);*/
+                transform: translateY(-180%);
+                transition: transform .2s ease;
+            }
+
+            header > .sub_logo {
+                padding-top: 1%;
+                /*font-size: 3.4em;*/
+                font-size: 2.4em;
+                /*position: fixed;*/
+                margin-top: 4px;
+                z-index: 10;
+                /*transform: translate(-420px, -100%);*/
+                transform: translateY(-180%);
+                transition: transform .2s ease, opacity 1.2s;
+                cursor: pointer;
+            }
+
+            header > .sub_down {
+                /*transform: translate(-420px, 0);*/
+                transform: translateY(0);
+                transition: transform .2s .25s ease;
+            }
+
+            .logo, .sub_logo {
+                opacity: 0;
+            }
+
+            header > .dropbtn {
+                background: none;
+                outline: none;
+                border: none;
+                box-sizing: border-box;
+                margin-top: calc(27px - 18px + 10px);
+                margin-left: calc(98.22px - 36px);
+                padding: 8px 4px;
+                width: 36px;
+                height: 36px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-end;
+                /*transform: translateX(420px);*/
+                /*position: fixed;*/
+                cursor: pointer;
+                /*opacity: 0;*/
+                /*transition: var(--opacity-load);*/
+            }
+
+            header > .dropbtn > .bar {
+                width: 0;
+                height: 2px;
+                border-radius: 1px;
+                background: black;
+                transition: width .3s;
+            }
+
+            header > .dropbtn > .first_bar {
+                width: 18px;
+            }
+
+            header > .dropbtn > .center_bar {
+                width: 14px;
+            }
+
+            header > .dropbtn > .last_bar {
+                width: 22px;
+            }
+
+            header > .dropbtn:hover > .bar {
+                width: 26px;
+            }
+
+            .container > nav {
+                /*display: none;*/
+                position: fixed;
+                top: 0;
+                right: 0;
+                z-index: 12;
+                transform: translateX(110%);
+                transition: transform .3s;
+            }
+
+            .container > .nav_show {
+                transform: translateX(0);
+            }
+
+
+            /*.closebtn을 .menu에서 빼고 .menu에 night모드 버튼 추가*/
+
+            .container > nav > .menu {
+                width: 240px;
+                height: 100vh;
+                list-style: none;
+                background-color: white;
+                margin: 0;
+                padding: 16px 0;
+                display: flex;
+                flex-direction: column;
+                transition: width .15s;
+            }
+
+            .container > nav > .menu > .closebtn {
+                outline: none;
+                background: none;
+                border: none;
+                box-sizing: border-box;
+                position: relative;
+                width: 36px;
+                height: 36px;
+                padding: 0;
+                margin-left: 20px;
+                margin-bottom: 32px;
+                cursor: pointer;
+            }
+
+            .container > nav > .menu > .closebtn .circle {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                transition: background .125s;
+            }
+
+            .container > nav > .menu > .closebtn .circle:hover {
+                background: rgba(81, 81, 81, .1);
+            }
+
+            .container > nav > .menu > li {
+                text-align: center;
+                font-size: 1.6em;
+            }
+
+            .container > nav > .menu > li > a {
+                display: block;
+                text-decoration: none;
+                color: black;
+                padding: 12px;
+                transition: background .125s;
+            }
+
+            .container > nav > .menu > li > a:hover {
+                background: rgba(81, 81, 81, .1);
+            }
+
+
+            .container > .closeback {
+                display: none;
+                background: rgba(81, 81, 81, .3);
+                width: 100vw;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 11;
+                cursor: pointer;
+                transition: .2s background;
+            }
+
+            .container > .closeback:hover {
+                background: rgba(81, 81, 81, .4);
+            }
+
+            main, .center {
+                opacity: 0;
+                transition: var(--opacity-load);
+            }
+
+            .container > main {
+                margin-bottom: 4%;
+            }
+
+            main > .main_image {
+                width: 300px;
+                height: 413px;
+                position: relative;
+                margin: 36% 0 8% 0;
+                /*outline: 1px solid red;*/
+                /*transition: width .2s, height .2s, margin .2s;*/
+            }
+
+            /*main > .main_image:hover {*/
+            /*    width: calc(300px * 1.2);*/
+            /*    height: calc(413px * 1.2);*/
+            /*    margin-top: calc(36% - (413px * 1.2 - 413px)/2);*/
+            /*}*/
+
+            .main_image > div {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background-size: cover;
+                background-repeat: no-repeat;
+                opacity: 0;
+                transition: opacity .3s;
+            }
+
+            .main_image > .active {
+                opacity: 1;
+            }
+
+            .main_image > .midnight_green_img {
+                background-image: url(https://www.apple.com/v/iphone/compare/p/images/overview/compare_iphone11_pro_max_midnightgreen__djurwwoo8nwy_large.jpg);
+            }
+
+            .main_image > .silver_img {
+                background-image: url(https://www.apple.com/v/iphone/compare/p/images/overview/compare_iphone11_pro_max_silver__fe520rusoqmy_large.jpg);
+            }
+
+            .main_image > .space_gray_img {
+                background-image: url(https://www.apple.com/v/iphone/compare/p/images/overview/compare_iphone11_pro_max_spacegrey__d468g3ez8pme_large.jpg);
+            }
+
+            .main_image > .gold_img {
+                background-image: url(https://www.apple.com/v/iphone/compare/p/images/overview/compare_iphone11_pro_max_gold__fe9m8ph9utim_large.jpg);
+            }
+
+            /*ul*/
+            main > .colors {
+                list-style: none;
+                padding: 0;
+                /*outline: 1px solid blue;*/
+                display: flex;
+                justify-content: space-evenly;
+            }
+
+            main > .colors > a {
+                text-decoration: none;
+                /*outline: 1px solid red;*/
+                padding: 3px;
+                border-radius: 50%;
+                border: 1px solid transparent;
+                box-sizing: border-box;
+                transition: border .2s;
+            }
+
+            /*.container > main > .colors > a:hover {*/
+            /*    border: 1px solid rgba(51, 51, 51, .2);*/
+            /*}*/
+            main > .colors .circle_border {
+                border: 1px solid rgba(51, 51, 51, .2);
+            }
+
+            main > .colors .active {
+                border: 1px solid rgb(0, 112, 201);
+            }
+
+            /*li*/
+            main > .colors > a > .color {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                box-shadow: rgba(102, 102, 102, 0.5) 0 1px 2px 0 inset;
+            }
+
+            .midnight_green {
+                background-color: rgb(78, 88, 81);
+            }
+
+            .silver {
+                background-color: rgb(235, 235, 227);
+            }
+
+            .space_gray {
+                background-color: rgb(83, 81, 80);
+            }
+
+            .gold {
+                background-color: rgb(250, 215, 189);
+            }
+
+            .container > .center {
+                margin-bottom: 14%;
+                text-align: center;
+            }
+
+            .center > h2 {
+                font-weight: 600;
+                font-size: 2.6em;
+            }
+
+            .center > h5 {
+                margin-top: 2%;
+            }
+
+            .center > p {
+                margin: var(--margin);
+                text-align: left;
+            }
+
+
+            .container > form {
+                width: 100%;
+                margin: var(--margin);
+                margin-bottom: 8%;
+                opacity: 0;
+                transition: opacity .5s;
+            }
+
+            form > h3 {
+                margin: var(--margin);
+                font-weight: 600;
+            }
+
+            form > .form-group {
+                margin-left: 2%;
+                margin-right: 2%;
+            }
+
+            .form-group > label {
+                padding: 7px 0;
+                white-space: nowrap;
+            }
+
+            .form-group .col-sm-10 {
+                padding-right: 0;
+            }
+
+            form #color_select > option:nth-child(2) {
+                background-color: rgba(78, 88, 81, .9);
+                color: white;
+            }
+
+            form #color_select > option:nth-child(3) {
+                background-color: rgba(235, 235, 227, .9);
+                color: black;
+            }
+
+            form #color_select > option:nth-child(4) {
+                background-color: rgba(83, 81, 80, .9);
+                color: white;
+            }
+
+            form #color_select > option:nth-child(5) {
+                background-color: rgba(250, 215, 189, .9);
+                color: black
+            }
+
+            form > .btn {
+                height: 42px;
+                border-radius: 21px;
+                padding: 6px 20px;
+                margin-top: 2%;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .container > .table_wrap {
+                width: 100%;
+                display: none;
+            }
+
+            .table_wrap > table > thead {
+                white-space: nowrap;
+            }
+
+            .table_wrap > table > tbody {
+                border-bottom: 1px solid rgb(222, 226, 230);
+            }
+
+            .table_wrap > table tr {
+                text-align: center;
+            }
+
+
+            .topbtn {
+                background: none;
+                border: none;
+                margin-top: 4%;
+                padding: 0;
+                width: calc(60px * 2 / 3);
+                height: calc(30px * 2 / 3);
+                opacity: 0;
+                cursor: pointer;
+                outline: none;
+            }
+
+            .tb_ani {
+                animation-name: tb_ani;
+                animation-duration: .5s;
+                animation-delay: .8s;
+                transition: opacity .2s .8s;
+            }
+
+            @keyframes tb_ani {
+                0% {
+                    trnasform: translateY(-120%);
+                }
+                10% {
+                    transform: translateY(110%);
+                }
+                25% {
+                    transform: translateY(-70%);
+                }
+                40% {
+                    transform: translateY(50%);
+                }
+                55% {
+                    transform: translateY(-30%);
+                }
+                70% {
+                    transform: translateY(20%);
+                }
+                85% {
+                    transform: translateY(-10%);
+                }
+                100% {
+                    transform: translateY(0);
+                }
+            }
+
+            .container > footer {
+                /*outline: 1px solid blue;*/
+                height: 80px;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 2%;
+                opacity: 0;
+                transition: .5s opacity;
+            }
+
+            footer > p {
+                margin: 0;
+                font-size: .8em;
+            }
+
+            footer > #icon_wrap {
+                display: flex;
+                /*outline: 1px solid blue;*/
+            }
+
+            footer > #icon_wrap a {
+                width: 32px;
+                height: 32px;
+            }
+
+            .container > .scroll_show {
+                height: 3px;
+                background-color: #007bff;
+                position: fixed;
+                top: 0;
+                left: 0;
+                transition: width .1s ease-out;
+            }
+
+            /* 아이폰에서 form 전화번호요소 줄바꿈 현상(해결) */
+
+            @media (min-width: 1199.99px) {
+                .container > .nav_peep {
+                    transform: translateX(70%);
+                    transition: transform .3s;
+                }
+            }
+
+            /*Large devices (desktops, less than 1200px)*/
+            @media (max-width: 1199.98px) {
+                .container > header {
+                    width: 960px;
+                }
+            }
+
+            /*Medium devices (tablets, less than 992px)*/
+            @media (max-width: 991.98px) {
+                .container > header {
+                    width: 720px;
+                }
+            }
+
+            /*Small devices (landscape phones, less than 768px)*/
+            @media (max-width: 767.98px) {
+                .container > header {
+                    width: 540px;
+                }
+            }
+
+            /*Extra small devices (portrait phones, less than 576px)*/
+            @media (max-width: 575.98px) {
+                .container > header {
+                    justify-content: center;
+                }
+                /*header > .logo, header > .down {*/
+                /*    position: fixed;*/
+                /*    left: 14px;*/
+                /*}*/
+                header > .sub_logo, header > .sub_down {
+                    position: fixed;
+                    left: 14px;
+                }
+                header > .dropbtn {
+                    position: fixed;
+                    right: 14px;
+                }
+
+                .form-group {
+                    /*display: flex;*/
+                    /*justify-content: space-between;*/
+                    flex-wrap: nowrap;
+                }
+                .form-group > label {
+                    min-width: 72.89px;
+                    flex: 0 0 16.6667%;
+                    white-space: nowrap;
+                }
+                .form-group:not(:nth-child(7)) > label {
+                    /*margin-right: calc(72.89px - 50.69px);*/
+                }
+                .form-group > .col-sm-10 {
+                    /*display: flex;*/
+                    /*justify-content: flex-end;*/
+                }
+                .form-group .form-control {
+                    /*width: 200px;*/
+                }
+
+                .container > nav > .menu {
+                    width: 100vw;
+                }
+            }
+
+        </style>
+
+        <title>iPhone 11 Pro Max -송준영-</title>
+
+    </head>
+    <body onload="scroll_load_event(), exchange_rate_load()">
+
+        <div class="container">
+            <!--        상품이미지-->
+            <header>
+                <h2 class="sub_logo">Apple</h2>
+                <h1 class="logo">Apple</h1>
+                <button class="dropbtn">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </button>
+            </header>
+
+            <div class="closeback"></div>
+            <nav>
+                <ul class="menu">
+                    <button class="closebtn">
+                        <svg viewBox="0 0 100 100">
+                            <g>
+                                <path fill="none" stroke="black" stroke-width="5"
+                                      d="M10 10 L90 90 Z M90 10 L10 90 Z"></path>
+                                <div class="circle"></div>
+                            </g>
+                        </svg>
+                    </button>
+                    <li>
+                        <a href="#">menu_1</a>
+                    </li>
+                    <li>
+                        <a href="#">menu_2</a>
+                    </li>
+                    <li>
+                        <a href="#">menu_3</a>
+                    </li>
+                    <li>
+                        <a href="#">menu_4</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <main>
+                <div class="main_image">
+                    <div class="midnight_green_img active"></div>
+                    <div class="silver_img"></div>
+                    <div class="space_gray_img"></div>
+                    <div class="gold_img"></div>
+                </div>
+                <ul class="colors">
+                    <a href="javascript:void(0)" class="active">
+                        <li class="color midnight_green"></li>
+                    </a>
+                    <a href="javascript:void(0)">
+                        <li class="color silver"></li>
+                    </a>
+                    <a href="javascript:void(0)">
+                        <li class="color space_gray"></li>
+                    </a>
+                    <a href="javascript:void(0)">
+                        <li class="color gold"></li>
+                    </a>
+                </ul>
+            </main>
+
+            <!--    배열은 부트스트랩 사용! spanX-->
+            <div class="center">
+                <h2>iPhone 11 Pro Max</h2>
+                <h5>₩1,550,000</h5>
+                <hr>
+                <p>복잡함은 빼고 엄청난 성능만을 더해 사진 촬영의 개념 자체를 바꾸는 트리플 카메라 시스템. 배터리 사용 시간의 전례 없는 도약. 머신 러닝의 잠재력을 더욱 끌어올리고, 스마트폰의
+                    영역을 확장하는
+                    가공할 성능의 칩. Pro라는 이름에 전혀 손색 없는 강력한 최초의 iPhone, 지금 소개합니다.</p>
+            </div>
+
+            <!--    색상 추가(radio)-->
+            <form>
+                <h3>주문하기 <span style="color: rgb(174, 174, 174); font-size: .5em;">USD 1$ = KRW <span class="exchange_rate"></span>₩</span></h3>
+                <hr>
+                <!--        row 가로-->
+                <div class="form-group row">
+                    <!--             col-sm-2 col-form-label-->
+                    <label for="userName" class="col-sm-2 col-form-label">이름 : </label>
+                    <!--            col-sm-10-->
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="userName" placeholder="ex) 홍길동">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="color_select" class="col-sm-2 col-form-label">색상 : </label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="color_select">
+                            <option selected value=""> -- 색상을 선택하세요 --</option>
+                            <option value="Midnight Green">Midnight Green</option>
+                            <option value="Silver">Silver</option>
+                            <option value="Space Gray">Space Gray</option>
+                            <option value="Gold">Gold</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="count" class="col-sm-2 col-form-label">수량 : </label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="count">
+                            <option selected value=""> -- 수량을 선택하세요 --</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="address" class="col-sm-2 col-form-label">주소 : </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="address" placeholder="ex) 정자동 킨스타워">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="number" class="col-sm-2 col-form-label">전화번호 : </label>
+                    <!--            부분입력으로 수정-->
+                    <div class="col-sm-10">
+<!--                        type="number"에서 type="text"로 바꿔주기('-'기호를 인식하지 못하는 문제)-->
+                        <input type="text" class="form-control" id="number" placeholder="ex) 010-1234-5678">
+                    </div>
+                </div>
+                <!--        alert 추가, 부트스트랩-->
+                <button type="button" class="btn btn-primary">주문하기</button>
+            </form>
+
+            <div class="table_wrap">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">이름</th>
+                        <th scope="col">색상</th>
+                        <th scope="col">수량</th>
+                        <th scope="col">주소</th>
+                        <th scope="col">전화번호</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 일정 글다 수 넘어가면 ... 처리(https://junistory.blogspot.com/2017/06/css-ellipsis.html) -->
+                        <!-- 또는  -->
+                    <!--                        <tr>-->
+                    <!--                            <td>test</td>-->
+                    <!--                            <td>test</td>-->
+                    <!--                            <td>test</td>-->
+                    <!--                            <td>test</td>-->
+                    <!--                        </tr>-->
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="topbtn" style="outline: none;">
+                <svg viewBox="0 -2 60 30">
+                    <g>
+                        <path fill="none" stroke="#bbb" stroke-width="4" d="M0 30 L30 0 L60 30"></path>
+                    </g>
+                </svg>
+            </button>
+
+            <footer>
+
+                <p>Copyright ⓒ 2020 JOKA</p>
+                <div id="icon_wrap">
+                    <a class="icon youtube" href="https://www.youtube.com/?gl=KR&hl=ko" target="_blank">
+                        <svg id="youtube-icon" viewBox="0 0 64 64">
+                            <path d="M46.7,26c0,0-0.3-2.1-1.2-3c-1.1-1.2-2.4-1.2-3-1.3C38.3,21.4,32,21.4,32,21.4h0 c0,0-6.3,0-10.5,0.3c-0.6,0.1-1.9,0.1-3,1.3c-0.9,0.9-1.2,3-1.2,3S17,28.4,17,30.9v2.3c0,2.4,0.3,4.9,0.3,4.9s0.3,2.1,1.2,3 c1.1,1.2,2.6,1.2,3.3,1.3c2.4,0.2,10.2,0.3,10.2,0.3s6.3,0,10.5-0.3c0.6-0.1,1.9-0.1,3-1.3c0.9-0.9,1.2-3,1.2-3s0.3-2.4,0.3-4.9 v-2.3C47,28.4,46.7,26,46.7,26z M28.9,35.9l0-8.4l8.1,4.2L28.9,35.9z"></path>
+                        </svg>
+                    </a>
+                    <a class="icon instagram" href="https://www.instagram.com/" target="_blank">
+                        <svg id="instagram-icon" viewBox="0 0 64 64">
+                            <path d="M46.91,25.816c-0.073-1.597-0.326-2.687-0.697-3.641c-0.383-0.986-0.896-1.823-1.73-2.657c-0.834-0.834-1.67-1.347-2.657-1.73c-0.954-0.371-2.045-0.624-3.641-0.697C36.585,17.017,36.074,17,32,17s-4.585,0.017-6.184,0.09c-1.597,0.073-2.687,0.326-3.641,0.697c-0.986,0.383-1.823,0.896-2.657,1.73c-0.834,0.834-1.347,1.67-1.73,2.657c-0.371,0.954-0.624,2.045-0.697,3.641C17.017,27.415,17,27.926,17,32c0,4.074,0.017,4.585,0.09,6.184c0.073,1.597,0.326,2.687,0.697,3.641c0.383,0.986,0.896,1.823,1.73,2.657c0.834,0.834,1.67,1.347,2.657,1.73c0.954,0.371,2.045,0.624,3.641,0.697C27.415,46.983,27.926,47,32,47s4.585-0.017,6.184-0.09c1.597-0.073,2.687-0.326,3.641-0.697c0.986-0.383,1.823-0.896,2.657-1.73c0.834-0.834,1.347-1.67,1.73-2.657c0.371-0.954,0.624-2.045,0.697-3.641C46.983,36.585,47,36.074,47,32S46.983,27.415,46.91,25.816z M44.21,38.061c-0.067,1.462-0.311,2.257-0.516,2.785c-0.272,0.7-0.597,1.2-1.122,1.725c-0.525,0.525-1.025,0.85-1.725,1.122c-0.529,0.205-1.323,0.45-2.785,0.516c-1.581,0.072-2.056,0.087-6.061,0.087s-4.48-0.015-6.061-0.087c-1.462-0.067-2.257-0.311-2.785-0.516c-0.7-0.272-1.2-0.597-1.725-1.122c-0.525-0.525-0.85-1.025-1.122-1.725c-0.205-0.529-0.45-1.323-0.516-2.785c-0.072-1.582-0.087-2.056-0.087-6.061s0.015-4.48,0.087-6.061c0.067-1.462,0.311-2.257,0.516-2.785c0.272-0.7,0.597-1.2,1.122-1.725c0.525-0.525,1.025-0.85,1.725-1.122c0.529-0.205,1.323-0.45,2.785-0.516c1.582-0.072,2.056-0.087,6.061-0.087s4.48,0.015,6.061,0.087c1.462,0.067,2.257,0.311,2.785,0.516c0.7,0.272,1.2,0.597,1.725,1.122c0.525,0.525,0.85,1.025,1.122,1.725c0.205,0.529,0.45,1.323,0.516,2.785c0.072,1.582,0.087,2.056,0.087,6.061S44.282,36.48,44.21,38.061z M32,24.297c-4.254,0-7.703,3.449-7.703,7.703c0,4.254,3.449,7.703,7.703,7.703c4.254,0,7.703-3.449,7.703-7.703C39.703,27.746,36.254,24.297,32,24.297z M32,37c-2.761,0-5-2.239-5-5c0-2.761,2.239-5,5-5s5,2.239,5,5C37,34.761,34.761,37,32,37z M40.007,22.193c-0.994,0-1.8,0.806-1.8,1.8c0,0.994,0.806,1.8,1.8,1.8c0.994,0,1.8-0.806,1.8-1.8C41.807,22.999,41.001,22.193,40.007,22.193z"></path>
+                        </svg>
+                    </a>
+                    <a class="icon facebook" href="https://www.facebook.com/" target="_blank">
+                        <svg id="facebook-mask" viewBox="-65 -60 280 280">
+                            <path style="fill:#010002;" d="M89.584,155.139V84.378h23.742l3.562-27.585H89.584V39.184
+		c0-7.984,2.208-13.425,13.67-13.425l14.595-0.006V1.08C115.325,0.752,106.661,0,96.577,0C75.52,0,61.104,12.853,61.104,36.452
+		v20.341H37.29v27.585h23.814v70.761H89.584z"></path>
+                        </svg>
+                    </a>
+                </div>
+
+            </footer>
+
+            <div class="scroll_show"></div>
+
+            <!-- 지정한 스크롤위치에 접근하면 "양식 입력 후, 주문하기 버튼을 누르면 구매내역이 나옵니다." 라는 안내창 띄우기 -->
+
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+
+            // menu
+            const dbtn = $(".dropbtn"),
+                nav = $("nav"),
+                cbtn = document.getElementsByClassName("closebtn");
+            dbtn.on("mouseover", function (event) {
+                nav.addClass("nav_peep");
+            });
+            dbtn.on("mouseout", function (event) {
+                nav.removeClass("nav_peep");
+            });
+            dbtn.on("click", function (event) {
+                nav.toggleClass("nav_show");
+                $(".closeback").fadeToggle(200);
+            });
+            $(".closebtn").on("click", function (event) {
+                close();
+            });
+            $(".closeback").on("click", function (event) {
+                close();
+            });
+
+            function close() {
+                $("nav").removeClass("nav_show");
+                $(".closeback").fadeOut(200);
+            }
+
+
+            $(".colors > a").on("mouseover", function (event) {
+                $(this).addClass("circle_border");
+            });
+            $(".colors > a").on("mouseout", function (event) {
+                $(this).removeClass("circle_border");
+            });
+            $(".colors > a").on("click", function (event) {
+                $(this).addClass("active");
+                $(".colors > a").not(this).removeClass("active");
+            });
+
+            const a_btn = document.querySelectorAll(".colors > a"),
+                m_img = document.getElementsByClassName("main_image")[0];
+            var i, j;
+
+            for (i = 0; i < a_btn.length; i++) {
+                object(i);
+            }
+
+            function object(j) {
+                if (a_btn[j].addEventListener) {
+                    a_btn[j].addEventListener("click", function (event) {
+                        object_function();
+                    });
+                } else if (a_btn[j].attachEvent) {
+                    a_btn[j].attachEvent("onclick", function (event) {
+                        object_function();
+                    });
+                }
+                function object_function() {
+                    for (i = 0; i < a_btn.length; i++) {
+                        m_img.children[i].classList.remove("active");
+                    }
+                    m_img.children[j].classList.add("active");
+                }
+            }
+
+            // console.log(a_btn[0].parentElement.previousElementSibling.children);
+
+            // 리펙토링하기
+            // a_btn[0].addEventListener("click", function(event) {
+            //     m_img.children[0].classList.add("active");
+            //     m_img.children[1].classList.remove("active");
+            //     m_img.children[2].classList.remove("active");
+            //     m_img.children[3].classList.remove("active");
+            // });
+            // a_btn[1].addEventListener("click", function(event) {
+            //     m_img.children[0].classList.remove("active");
+            //     m_img.children[1].classList.add("active");
+            //     m_img.children[2].classList.remove("active");
+            //     m_img.children[3].classList.remove("active");
+            // });
+            // a_btn[2].addEventListener("click", function(event) {
+            //     m_img.children[0].classList.remove("active");
+            //     m_img.children[1].classList.remove("active");
+            //     m_img.children[2].classList.add("active");
+            //     m_img.children[3].classList.remove("active");
+            // });
+            // a_btn[3].addEventListener("click", function(event) {
+            //     m_img.children[0].classList.remove("active");
+            //     m_img.children[1].classList.remove("active");
+            //     m_img.children[2].classList.remove("active");
+            //     m_img.children[3].classList.add("active");
+            // });
+
+            // 1주차 숙제!!, userName, color_select, count, address, number
+            let btn = document.getElementsByClassName("btn"),
+                un = document.getElementById("userName"),
+                cs = document.getElementById("color_select"),
+                st = document.getElementById("count"),
+                ar = document.getElementById("address"),
+                nb = document.getElementById("number");
+            if (btn[0].addEventListener) {
+                btn[0].addEventListener("click", function (event) {
+                    order();
+                });
+            } else if (btn[0].attachEvent) {
+                btn[0].attachEvent("onclick", function (event) {
+                    order();
+                });
+            }
+            function order() {
+                // 내준 숙제랑 약간 다른방식으로 하기, jQuery로??
+                let un_v = $("#userName").val(),
+                    cs_v = $("#color_select").val(),
+                    st_v = $("#count").val(),
+                    ar_v = $("#address").val(),
+                    nb_v = $("#number").val(),
+                    table_temp = `
+                        <tr>
+                              <td>${un_v}</td>
+                              <td>${cs_v}</td>
+                              <td>${st_v}</td>
+                              <td>${ar_v}</td>
+                              <td>${nb_v}</td>
+                        </tr>
+                    `;
+                let un_txt,
+                    cs_txt,
+                    st_txt,
+                    ar_txt,
+                    nb_txt;
+
+                if (un.value != "" && cs.value != "" && st.value != "" && ar.value != "" && nb.value != "") {
+                    // 주문 내용 추가, console 창에서는 안되고 여기서는 됨...
+                    // 숙제 jQuery로 구매이력?(table)이 추가되는 기능 추가(+ 주문 취소 버튼?) = 완성, $(a).val(); var 변수 = `태그`(백틱); .append(변수), 같은 내용일 때 "이미 구매하신 상품입니다." = 어렵;
+
+                    // 주문 취소버튼 추가??
+
+                    // input type="number"를 text로 바꿔보기, type을 tel로??
+                    if (!isCellPhone(nb_v)) {
+                        alert("전화번호를 올바르게 입력해 주세요. (ex. 010-1234-5678)");
+                        nb.focus();
+                    } else {
+                        alert("주문이 완료되었습니다.");
+                        $(".table_wrap").slideDown(150);
+                        $(".table_wrap tbody").append(table_temp);
+                    }
+
+                } else if (un.value == "" && cs.value == "" && st.value == "" && ar.value == "" && nb.value == "") {
+                    alert("양식을 입력해주세요.");
+                    un.focus();
+                } else {
+
+                    if (un.value == "") {
+                        un_txt = cs.value != "" && st.value != "" && ar.value != "" && nb.value != "" ? "이름을 " : "이름, ";
+                    } else {
+                        un_txt = "";
+                    }
+                    if (cs.value == "") {
+                        cs_txt = st.value != "" && ar.value != "" && nb.value != "" ? "색상을 " : "색상, ";
+                    } else {
+                        cs_txt = "";
+                    }
+                    if (st.value == "") {
+                        st_txt = ar.value != "" && nb.value != "" ? "수량을 " : "수량, ";
+                    } else {
+                        st_txt = "";
+                    }
+                    if (ar.value == "") {
+                        ar_txt = nb.value != "" ? "주소를 " : "주소, ";
+                    } else {
+                        ar_txt = "";
+                    }
+                    if (nb.value == "") {
+                        nb_txt = "전화번호를 ";
+                    } else {
+                        nb_txt = "";
+                    }
+
+                    alert(un_txt + cs_txt + st_txt + ar_txt + nb_txt + "입력해주세요.");
+
+                    if (un.value == "") {
+                        un.focus();
+                    } else {
+                        if (cs.value == "") {
+                            cs.focus();
+                        } else {
+                            if (st.value == "") {
+                                st.focus();
+                            } else {
+                                if (ar.value == "") {
+                                    ar.focus();
+                                } else {
+                                    if (nb.value == "") {
+                                        nb.focus();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+                // alert("주문이 완료되었습니다.");
+            }
+            function isCellPhone(p) {
+                let regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})[-][0-9]{3,4}[-][0-9]{4}$/;
+                return regExp.test(p);
+            }
+            // function empty_order_value() {
+            //     var order;
+            //     for (i = 0; i < inp.length; i++) {
+            //         if (inp[i+1].value != "") {
+            //             order = inp_order_text[i] + ", ";
+            //         }
+            //     }
+            // }
+
+            // topbtn
+            const tbtn = document.getElementsByClassName("topbtn")[0];
+            if (tbtn.addEventListener) {
+                tbtn.addEventListener("click", function (event) {
+                    window.scrollTo(0, 0);
+                });
+            } else if (tbtn.attachEvent) {
+                tbtn.attachEvent("onclick", function (event) {
+                    window.scrollTo(0, 0);
+                });
+            }
+
+            // logo, form, footer load_opacity
+            const lg = document.getElementsByClassName("logo")[0],
+                slg = document.getElementsByClassName("sub_logo")[0],
+                form = document.getElementsByTagName("form")[0],
+                foot = document.getElementsByTagName("footer")[0];
+
+            function scroll_load_event() {
+                if (window.addEventListener) {
+                    window.addEventListener("scroll", function(event) {
+                        scroll_load_event_object();
+                    });
+                } else if (indow.attachEvent) {
+                    window.attachEvent("onscroll", function(event) {
+                        scroll_load_event_object();
+                    });
+                }
+                function scroll_load_event_object() {
+                    let sy = window.pageYOffset || document.documentElement.scrollTop,
+                        boh = document.body.offsetHeight,
+                        wih = window.innerHeight;
+                    if (sy > 40) {
+                        lg.classList.add("down");
+                        slg.classList.add("sub_down");
+                    } else {
+                        lg.classList.remove("down");
+                        slg.classList.remove("sub_down");
+                    }
+                    if (sy > (boh - (40 + wih))) {
+                        tbtn.style.opacity = "1";
+                        tbtn.classList.add("tb_ani");
+                        foot.style.opacity = "1";
+                    } else {
+                        tbtn.style.opacity = "0";
+                        tbtn.classList.remove("tb_ani");
+                        foot.style.opacity = "0";
+                    }
+                    if (sy > (form.offsetTop - wih) + 120) {
+                        form.style.opacity = "1";
+                    } else if (sy < (form.offsetTop - wih)) {
+                        form.style.opacity = "0";
+                    }
+                }
+            }
+            scroll_load_event();
+
+            // scroll_show
+            const ss = document.getElementsByClassName("scroll_show")[0];
+            if (window.addEventListener) {
+                window.addEventListener("scroll", function (event) {
+                    scroll_show_object();
+                });
+            } else if (window.attachEvent) {
+                window.attachEvent("onscroll", function (event) {
+                    scroll_show_object();
+                });
+            }
+            function scroll_show_object() {
+                let sy = window.pageYOffset || document.documentElement.scrollTop,
+                    boh = document.body.offsetHeight,
+                    wih = window.innerHeight;
+                ss.style.width = ((sy / (boh - wih)) * 100) + "%";
+            }
+
+            // load, css tag에 animation 효과로 넣어줘도 됐을 듯
+            const con = document.getElementsByClassName("container")[0].children,
+                logo = document.getElementsByClassName("logo")[0],
+                s_logo = document.getElementsByClassName("sub_logo")[0],
+                bar = document.getElementsByClassName("bar");
+            window.onload = function () {
+                for (i = 2; i < con.length; i++) {
+                    con[i].style.opacity = "1";
+                }
+                logo.style.opacity = "1";
+                s_logo.style.opacity = "1";
+                // dbtn.style.opacity = "1";
+                tbtn.style.opacity = "0";
+                var b_list = ["first_bar", "center_bar", "last_bar"];
+                for (i = 0; i < bar.length; i++) {
+                    bar[i].classList.add(b_list[i]);
+                }
+            }
+            // window.onbeforeunload = function () {
+            //     window.scrollTo(0, 0);
+            // }
+
+
+            // 2주차 숙제!!, + 색상 추가하기?(radio or select), exchange_rate
+            function exchange_rate_load() {
+                $.ajax({
+                    type: "GET",
+                    url: "https://api.manana.kr/exchange/rate.json",
+                    data: {},
+                    success: function (response) {
+                        for (let i = 0; i < response.length; i++) {
+                            if (response[i]["name"] == "USDKRW=X") {
+                                let usd = response[i]["rate"];
+                                $(".exchange_rate").text(usd);
+                                return;     // 왜 return을 넣었을까??
+                            }
+                        }
+                    }
+                });
+            }
+            exchange_rate_load();
+
+
+
+        </script>
+
+    </body>
+</html>
