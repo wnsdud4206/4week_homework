@@ -14,7 +14,7 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/memo', methods=['POST'])
+@app.route('/order', methods=['POST'])
 def post_article():
     # 1. 클라이언트로부터 데이터를 받기
     url_receive = request.form["url_give"]
@@ -44,18 +44,18 @@ def post_article():
     }
 
     # print(doc)
-    db.memo.insert_one(doc)
+    db.order.insert_one(doc)
 
     return jsonify({'result': 'success', 'msg': 'POST 연결되었습니다!'})
 
 
 # 서버?
-@app.route('/memo', methods=['GET'])
+@app.route('/order', methods=['GET'])
 def read_articles():
     # 1. mongoDB에서 _id 값을 제외한 모든 데이터 조회해오기(Read)
-    memos = list(db.memo.find({}, {"_id": False}))
+    orders = list(db.order.find({}, {"_id": False}))
     # 2. articles라는 키 값으로 articles 정보 보내주기
-    return jsonify({'result': 'success', 'memos': memos})
+    return jsonify({'result': 'success', 'orders': orders})
 
 
 if __name__ == '__main__':
