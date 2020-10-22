@@ -470,7 +470,7 @@
 
             .container > .table_wrap {
                 width: 100%;
-                display: none;
+                /*display: none;*/
             }
 
             .table_wrap > table > thead {
@@ -948,6 +948,7 @@
                 st = document.getElementById("count"),
                 ar = document.getElementById("address"),
                 nb = document.getElementById("number");
+
             if (btn[0].addEventListener) {
                 btn[0].addEventListener("click", function (event) {
                     order();
@@ -957,22 +958,24 @@
                     order();
                 });
             }
-            function order() {
+
+
+            function order() {          // POST와 충돌이 없도록 수정
                 // 내준 숙제랑 약간 다른방식으로 하기, jQuery로??
                 let un_v = $("#userName").val(),
                     cs_v = $("#color_select").val(),
                     st_v = $("#count").val(),
                     ar_v = $("#address").val(),
-                    nb_v = $("#number").val(),
-                    table_temp = `
-                        <tr>
-                              <td>${un_v}</td>
-                              <td>${cs_v}</td>
-                              <td>${st_v}</td>
-                              <td>${ar_v}</td>
-                              <td>${nb_v}</td>
-                        </tr>
-                    `;
+                    nb_v = $("#number").val();
+                // let table_temp = `
+                //         <tr>
+                //               <td>${un_v}</td>
+                //               <td>${cs_v}</td>
+                //               <td>${st_v}</td>
+                //               <td>${ar_v}</td>
+                //               <td>${nb_v}</td>
+                //         </tr>
+                //     `;
                 let un_txt,
                     cs_txt,
                     st_txt,
@@ -990,9 +993,12 @@
                         alert("전화번호를 올바르게 입력해 주세요. (ex. 010-1234-5678)");
                         nb.focus();
                     } else {
-                        alert("주문이 완료되었습니다.");
-                        $(".table_wrap").slideDown(150);
-                        $(".table_wrap tbody").append(table_temp);
+                        makeOrder();
+                        // alert("주문이 완료되었습니다.");       // POST msg로 대체
+                        // $(".table_wrap").slideDown(150);
+                        // $(".table_wrap tbody").append(table_temp);
+                        $("tbody").html("");     // 지웠다가 다시 만듬
+                        orderHistory();
                     }
 
                 } else if (un.value == "" && cs.value == "" && st.value == "" && ar.value == "" && nb.value == "") {
@@ -1087,7 +1093,7 @@
                     window.addEventListener("scroll", function(event) {
                         scroll_load_event_object();
                     });
-                } else if (indow.attachEvent) {
+                } else if (window.attachEvent) {
                     window.attachEvent("onscroll", function(event) {
                         scroll_load_event_object();
                     });
@@ -1183,7 +1189,79 @@
             exchange_rate_load();
 
 
-            // 4주차 숙제, 주문하기(POST) & 주문내역(GET)
+            // 4주차 숙제, 주문하기(POST) & 주문내역(GET), 취소버튼 누르면 요소뿐만 아니라 db까지 제거하는 법?
+            // 주문하고 뒤로가기 하면 이상한 주소가 나온다??
+            // $(document).ready(function () {      // order()에 삽입
+            //     $("#tbody").html("");     // 지웠다가 다시 만듬
+            orderHistory();
+            // });
+
+            function makeOrder() {          // onclick, un_v cs_v st_v ar_v nb_v
+                // 1. 제목, 저자, 리뷰 내용을 가져옵니다.
+                let un_v = $("#userName").val(),
+                    cs_v = $("#color_select").val(),
+                    st_v = $("#count").val(),
+                    ar_v = $("#address").val(),
+                    nb_v = $("#number").val();
+                // 2. 제목, 저자, 리뷰 중 하나라도 입력하지 않았을 경우 alert를 띄웁니다.
+                // console.log(title, author, bookReview)
+                // 3. POST /review 에 저장을 요청합니다.
+
+                $.ajax({
+                    type: "POST",
+                    url: "/order",
+                    // python에 (서버에) 데이터 약속된 이름으로 보내주기
+                    data: {"userName_give": un_v, "color_select_give": cs_v, "count_give": st_v, "address_give": ar_v, "number_give": nb_v},
+                    success: function (response) {
+                        if (response["result"] == "success") {          //
+                            alert(response["msg"]);
+                            // window.location.reload();
+                        }
+                    }
+                })
+            }
+
+            function orderHistory() {
+                // 1. 리뷰 목록을 서버에 요청하기
+                // 2. 요청 성공 여부 확인하기
+                // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
+                $.ajax({
+                    type: "GET",
+                    url: "/order",
+                    data: {},
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            // alert(response["msg"]);
+                            console.log(response["orders"]);    // db에 저장된 데이터
+                            let orders = response["orders"];
+                            for (i = 0; i < orders.length; i++) {
+                                let row = orders[i],
+                                    r_un = row["userName"],
+                                    r_cs = row["color_select"],
+                                    r_st = row["count"],
+                                    r_ar = row["address"],
+                                    r_nb = row["number"];
+
+                                let table_temp = `
+                                        <tr>
+                                              <td>${r_un}</td>
+                                              <td>${r_cs}</td>
+                                              <td>${r_st}</td>
+                                              <td>${r_ar}</td>
+                                              <td>${r_nb}</td>
+                                        </tr>
+                                    `;
+
+                                $("tbody").append(table_temp);
+
+                                console.log(r_un, r_cs, r_st, r_ar, r_nb);
+                            }
+                        } else {
+                            alert("주문내역을 받아오지 못했습니다");
+                        }
+                    }
+                })
+            }
 
 
 
