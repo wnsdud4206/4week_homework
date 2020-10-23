@@ -49,7 +49,23 @@ def post_article():
     # print(doc)
     db.order.insert_one(doc)
 
+    # 지우는 법?, 위에서 부터 1, 2, 3... 요소를 select 해서 버튼을 눌러 숫자를 보내고 그 숫자를 이용해서 db지우기, 여러게를 한 번에 지우는 법?
+
     return jsonify({'result': 'success', 'msg': '주문이 완료되었습니다.'})
+
+
+# orders = list(db.order.find({}, {"_id": False}))
+
+# db 제거
+@app.route('/order_remove', methods=['POST'])
+def post_article_remove():
+    orders = list(db.order.find({}, {"_id": False}))
+    select_id_receive = request.form["select_id_give"]
+    select_id_int = int(select_id_receive[3])
+
+    db.order.delete_one(orders[select_id_int])
+
+    return jsonify({'result': 'success', 'msg': '주문이 취소되었습니다.'})
 
 
 # 서버?
@@ -57,6 +73,7 @@ def post_article():
 def read_articles():
     # 1. mongoDB에서 _id 값을 제외한 모든 데이터 조회해오기(Read)
     orders = list(db.order.find({}, {"_id": False}))
+
     # 2. articles라는 키 값으로 articles 정보 보내주기
     return jsonify({'result': 'success', 'orders': orders})
 
@@ -64,3 +81,5 @@ def read_articles():
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
     # http://127.0.0.1:5000/  ==  localhost:5000/
+
+# 웹에 업데이트가 안되는 버그....

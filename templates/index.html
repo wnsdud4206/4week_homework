@@ -46,7 +46,7 @@
                 font-family: "SF Pro KR", "SF Pro Text", "SF Pro Icons", "AOS Icons", "Apple Gothic", "HY Gulim", MalgunGothic, "HY Dotum", "Lexi Gulim", "Helvetica Neue", Helvetica, Arial, sans-serif;
             }
 
-            *:not(.table_wrap):not(main):not(.topbtn) {
+            *:not(.table_wrap):not(main):not(table):not(.topbtn) {
                 transition: var(--responsive_transition_time);
             }
 
@@ -485,6 +485,36 @@
                 text-align: center;
             }
 
+            .table_wrap > table > tbody > tr {
+                cursor: pointer;
+            }
+            .table_wrap > table > tbody > tr.over {
+                background-color: rgba(0, 0, 0, .06);
+            }
+            .table_wrap > table > tbody > tr.select {
+                background-color: rgba(0, 0, 0, .15);
+            }
+
+            /*form > .btn {*/
+            /*    height: 42px;*/
+            /*    border-radius: 21px;*/
+            /*    padding: 6px 20px;*/
+            /*    margin-top: 2%;*/
+            /*    position: relative;*/
+            /*    left: 50%;*/
+            /*    transform: translateX(-50%);*/
+            /*}*/
+            .table_wrap > .btn-secondary {
+                height: calc(42px - 6px);
+                border-radius: 21px;
+                padding: 6px 18px;
+                margin-top: 2%;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+                /*display: none;*/
+            }
+
 
             .topbtn {
                 background: none;
@@ -805,6 +835,7 @@
                     <!--                        </tr>-->
                     </tbody>
                 </table>
+                <button type="button" id="remove_btn" class="btn btn-secondary">주문취소</button>    <!-- 색상 고르기(bootstrap 페이지에서) -->
             </div>
 
             <button class="topbtn" style="outline: none;">
@@ -1177,7 +1208,7 @@
                     data: {},
                     success: function (response) {
                         for (let i = 0; i < response.length; i++) {
-                            if (response[i]["name"] == "USDKRW=X") {
+                            if (response[i]["name"] === "USDKRW=X") {
                                 let usd = response[i]["rate"];
                                 $(".exchange_rate").text(usd);
                                 return;     // 왜 return을 넣었을까??
@@ -1192,9 +1223,16 @@
             // 4주차 숙제, 주문하기(POST) & 주문내역(GET), 취소버튼 누르면 요소뿐만 아니라 db까지 제거하는 법?
             // 주문하고 뒤로가기 하면 이상한 주소가 나온다??
             // $(document).ready(function () {      // order()에 삽입
-            //     $("#tbody").html("");     // 지웠다가 다시 만듬
+            //     $("tbody").html("");     // 지웠다가 다시 만듬
             orderHistory();
             // });
+
+            $("#remove_btn").on("click", function (event) {
+                removeOrder();
+                // $(".select").detach();
+                $("tbody").html("");     // 지웠다가 다시 만듬
+                orderHistory();
+            });
 
             function makeOrder() {          // onclick, un_v cs_v st_v ar_v nb_v
                 // 1. 제목, 저자, 리뷰 내용을 가져옵니다.
@@ -1213,7 +1251,7 @@
                     // python에 (서버에) 데이터 약속된 이름으로 보내주기
                     data: {"userName_give": un_v, "color_select_give": cs_v, "count_give": st_v, "address_give": ar_v, "number_give": nb_v},
                     success: function (response) {
-                        if (response["result"] == "success") {          //
+                        if (response["result"] === "success") {          //
                             alert(response["msg"]);
                             // window.location.reload();
                         }
@@ -1230,7 +1268,7 @@
                     url: "/order",
                     data: {},
                     success: function (response) {
-                        if (response["result"] == "success") {
+                        if (response["result"] === "success") {
                             // alert(response["msg"]);
                             console.log(response["orders"]);    // db에 저장된 데이터
                             let orders = response["orders"];
@@ -1243,7 +1281,7 @@
                                     r_nb = row["number"];
 
                                 let table_temp = `
-                                        <tr>
+                                        <tr id="tr_${i}">
                                               <td>${r_un}</td>
                                               <td>${r_cs}</td>
                                               <td>${r_st}</td>
@@ -1254,6 +1292,8 @@
 
                                 $("tbody").append(table_temp);
 
+                                order_select();
+
                                 console.log(r_un, r_cs, r_st, r_ar, r_nb);
                             }
                         } else {
@@ -1263,6 +1303,43 @@
                 })
             }
 
+            // ++ 삭제하기 버튼, 아직 하나만 지우기(하나만 지우는게 더 어려운듯) - 여러개를 한 번에 지우는 법?
+            function order_select() {
+                $("tbody tr").on("mouseover", function (event) {
+                    $(this).addClass("over");
+                });
+                $("tbody tr").on("mouseout", function (event) {
+                    $(this).removeClass("over");
+                });
+                $("tbody tr").on("click", function (event) {      // toggleClass, hasClass 가 문제인듯(짝수번째 요소들이 event가 안먹힘)
+                    // if (!$(this).attr("class").includes("select")) {
+                    //     $(this).removeClass("select");
+                    //     // $(".table_wrap > #remove_btn").fadeOut(200);
+                    // } else {
+                    //     $(this).addClass("select");
+                        // $(".table_wrap > #remove_btn").fadeIn(200);
+                    // }
+                    $(this).addClass("select");
+                    $("tbody > tr").not($(this)).removeClass("select");
+                });
+            }
+
+            function removeOrder() {
+                let select = $(".select").attr("id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "/order_remove",
+                    // python에 (서버에) 데이터 약속된 이름으로 보내주기
+                    data: {"select_id_give": select},
+                    success: function (response) {
+                        if (response["result"] === "success") {
+                            alert(response["msg"]);
+                            // window.location.reload();
+                        }
+                    }
+                })
+            }
 
 
         </script>
